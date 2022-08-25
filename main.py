@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
+import sqlite3
 
 app = Flask(__name__)
 
@@ -14,10 +15,16 @@ class Location:
         self.address = address
 
 
-@app.route('/signature <email> <pronouns>')
+@app.route('/signature <email> <pronouns>', methods=['GET', 'POST'])
 def signature(email, pronouns):
-    user = User(name='Matt JARRETT', job_title='Deskside Technician II', phone='248.989.9999')
-    location = Location(name='LV Headoffice', address='1 E 57th Street New York, NY 10022')
+    con = sqlite3.connect('lvdatabase.db')
+    cur = con.cursor()
+    query = f"""SELECT * from Users
+                WHERE email = {email}"""
+    cur = cur.execute(query)
+    data = cur.fetchall()
+    user = User(name=data['Name'], job_title=data['Job Title'], phone=data['Phone'])
+    location = Location(name=data['Location'], address=['Address'])
     signature = f"<b>{user.name}</b> | {pronouns} | {user.job_title} | {location.name}\n | {location.address} | Mobile: {user.phone} | {email}"
     return render_template('signature.html', signature=signature)
 

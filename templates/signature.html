@@ -1,4 +1,17 @@
 {% extends 'base.html' %}
 {% block body %}
 {{ signature|safe }}
+<button onclick="copy()">Copy Signature To Clipboard</button>
+
+<script>
+    function copy() {
+        /* Save value of myText to input variable */
+        var input = document.getElementsByTagName("form")[0].innerHTML;
+       
+         /* Copy the text inside the text field */
+        navigator.clipboard.writeText(input);
+         
+        alert("Signature has been copied to clipboard. Paste it into your email signature in Outlook or go to Settings > Mail > Signature on your iPhone or iPad.");
+    }
+</script>
 {% endblock %}
