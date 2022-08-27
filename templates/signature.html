@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block body %}
 {{ signature|safe }}
-<button onclick="copy()">Copy Signature To Clipboard</button>
+<span><button onclick="copy()" id="clipboard">Copy Signature To Clipboard</button></span>
 
 <script>
     function copy() {
